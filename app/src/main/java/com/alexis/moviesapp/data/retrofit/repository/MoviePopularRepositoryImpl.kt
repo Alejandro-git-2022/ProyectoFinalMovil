@@ -11,9 +11,12 @@ class MoviePopularRepositoryImpl @Inject constructor(
 ) : IMoviePopularRepository {
     override suspend fun getMovies(): Result<List<Movie>> {
         return try {
+            // Llama al servicio para obtener la lista de películas populares
             val response = moviePopularService.getMovies().movies
+            // Mapea la respuesta del servicio al dominio de la aplicación y devuelve un Result.success
             Result.success(response.map { it.toDomain() })
         } catch (exception: Throwable) {
+            // En caso de error, devuelve un Result.failure con la excepción capturada
             Result.failure(exception)
         }
     }
